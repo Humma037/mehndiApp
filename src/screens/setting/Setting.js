@@ -8,11 +8,21 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './Style';
 import SettingDropDown from '../../assets/components/SettingDropDown';
-import { Avatar, Cloud_computing, Shuttle, Comments } from '../../assets/svg/index';
+import { signOut } from '../../services/firebaseAuth'; 
 
 const Setting = () => {
   const navigation = useNavigation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(true);
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      navigation.navigate('Login');
+    } catch (error) {
+      console.error('Error during logout:', error);
+      Alert.alert('Error', 'An error occurred during logout. Please try again.');
+    }
+  };
 
   const handleSettingBarPress = () => {
     navigation.navigate('Home');
@@ -102,11 +112,16 @@ const Setting = () => {
             { text: 'Report Problem', icon: 'bug-outline', iconLibrary: 'Ionicons' },
           ]}
         />
-        <SettingDropDown
+         <SettingDropDown
           heading="Logout & Delete"
           gearIcon="log-out"
           buttonData={[
-            { text: 'Logout', icon: 'power', iconLibrary: 'Feather' },
+            {
+              text: 'Logout',
+              icon: 'power',
+              iconLibrary: 'Feather',
+              onPress: handleLogout,
+            },
             { text: 'Delete Account', icon: 'trash-2', iconLibrary: 'Feather' },
           ]}
         />

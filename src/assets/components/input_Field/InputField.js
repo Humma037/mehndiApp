@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/AntDesign';
 import colors from '../../theme/Color';
 
 const InputField = ({ iconName, placeholder, onChangeText, secureTextEntry }) => {
+  const [text, setText] = useState('');
+
+  const handleTextChange = (newText) => {
+    setText(newText);
+    onChangeText(newText);
+  };
+
   return (
     <View style={styles.Input_Container}>
       <View style={styles.Input_sub_Container}>
@@ -14,8 +21,9 @@ const InputField = ({ iconName, placeholder, onChangeText, secureTextEntry }) =>
           style={styles.input}
           placeholder={placeholder}
           placeholderTextColor="#767676"
-          onChangeText={onChangeText}
+          onChangeText={handleTextChange}
           secureTextEntry={secureTextEntry}
+          value={text}
         />
       </View>
     </View>
@@ -42,7 +50,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     color: '#000',
-    fontSize:12
+    fontSize: 12
   },
 });
 

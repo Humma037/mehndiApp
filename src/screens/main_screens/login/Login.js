@@ -1,16 +1,29 @@
-import { StyleSheet, Text, View, email, Image, ScrollView } from 'react-native'
-import React from 'react'
-import ProceedButton from '../../../assets/components/reusable_buttons/ProceedButton'
-import MainStyles from '../../../assets/styles/MainStyles'
-import styles from './Styles'
-import InputField from '../../../assets/components/input_Field/InputField'
-import ClickableText from '../../../assets/components/reusable_buttons/ClickableText'
-import CustomHeader from '../../../assets/components/custom_hearder/CustomHeader'
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image, ScrollView, Alert } from 'react-native';
+import ProceedButton from '../../../assets/components/reusable_buttons/ProceedButton';
+import MainStyles from '../../../assets/styles/MainStyles';
+import styles from './Styles';
+import InputField from '../../../assets/components/input_Field/InputField';
+import ClickableText from '../../../assets/components/reusable_buttons/ClickableText';
+import CustomHeader from '../../../assets/components/custom_hearder/CustomHeader';
+import auth from '@react-native-firebase/auth';
 
-const Register = ({ navigation }) => {
+const Login = ({ navigation }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleSignInPress = () => {
-    navigation.navigate('Home');
+  const handleSignInPress = async () => {
+    try {
+      const response = await auth().signInWithEmailAndPassword(email, password);
+      if (response.user) {
+        // Successfully signed in, navigate to the home screen
+        navigation.navigate('Home');
+      } else {
+        Alert.alert('Invalid Credentials', 'Please check your email and password.');
+      }
+    } catch (error) {
+      Alert.alert( 'Invalid Credentials', 'Please check your email and password.');
+    }
   };
 
   return (
@@ -25,19 +38,21 @@ const Register = ({ navigation }) => {
           />
         </View>
         <View style={styles.Text_container}>
-        <Text style={[MainStyles.heading]}>Login to your Account</Text>
-        <Text style={styles.Text}>Lorem ipsum dolor sit amet pretium. Id congue pretium curabitur cras. Massa quam convallis phasellus </Text>
+          <Text style={[MainStyles.heading]}>Login to your Account</Text>
+          <Text style={styles.Text}>Lorem ipsum dolor sit amet pretium. Id congue pretium curabitur cras. Massa quam convallis phasellus </Text>
         </View>
         <View style={styles.TextInput}>
           <InputField
             placeholder="Email"
             secureTextEntry={false}
+            onChangeText={(text) => setEmail(text)}
           />
         </View>
         <View style={styles.TextInput}>
           <InputField
             placeholder="Password"
             secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)}
           />
         </View>
         <ClickableText
@@ -60,9 +75,9 @@ const Register = ({ navigation }) => {
             style={styles.account_Register}
           />
         </View>
-        </ScrollView>
+      </ScrollView>
     </View>
-  )
-}
+  );
+};
 
-export default Register
+export default Login;

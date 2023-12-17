@@ -66,7 +66,10 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     marginLeft: '23%',
     fontSize: 11.5
-  }
+  },
+  // TextInput:{
+  //   backgroundColor:'green'
+  // }
 });
 
 export default styles;

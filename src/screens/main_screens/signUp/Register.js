@@ -15,24 +15,6 @@ const Register = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [Name, setName] = useState('');
 
-  useEffect(() => {
-    // Check if the user is already authenticated
-    const unsubscribe = auth().onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in, navigate to the 'Home' screen
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{ name: 'Home' }],
-          })
-        );
-      }
-    });
-
-    // Cleanup the subscription when the component unmounts
-    return () => unsubscribe();
-  }, []); // Empty dependency array means this effect runs once on mount
-
   const handleSignUp = () => {
     if (password.length >= 8 && password) {
       auth()
@@ -44,6 +26,8 @@ const Register = ({ navigation }) => {
             .set({ Name, email })
             .then(() => {
               console.log('User data added to Firestore successfully');
+              // Navigate to the login screen
+              navigation.navigate('Login');
             })
             .catch(error => console.error('Error adding user data to Firestore:', error));
         })
@@ -52,7 +36,7 @@ const Register = ({ navigation }) => {
       console.log('Password criteria not met.');
     }
   };
-
+  
 
 
   return (
@@ -93,7 +77,7 @@ const Register = ({ navigation }) => {
             />
           </View>
           <View style={styles.button_style}>
-            <ProceedButton title="Home" onPress={handleSignUp} />
+            <ProceedButton title="Sign Up" onPress={handleSignUp} />
           </View>
           <View style={styles.account_Register_contanier}>
             <Text style={styles.account_text}>Already have an account?</Text>
