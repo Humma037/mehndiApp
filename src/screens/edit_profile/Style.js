@@ -64,14 +64,15 @@ marginTop:30
         // margin:5
       },
       textInput: {
-        height: 45,
+        // height: 45,
         borderBottomWidth: 1,
         borderColor: colors.DividingLine,
         width:'100%',
-        fontSize:12.5,
+        fontSize:13,
         marginVertical:5,
         color:'black',
-        paddingLeft:0
+        paddingLeft:0,
+        height:'auto'
       },
 
       sub_Container:{

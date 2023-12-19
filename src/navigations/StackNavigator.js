@@ -21,7 +21,7 @@ import Profile from '../screens/profile_screen/Profile';
 import PostImage from '../screens/post_image/PostImage';
 import Comments from '../screens/comment_screen/Comments';
 import MainProfile from '../screens/main_profile/MainProfile';
-
+import SearchBar from '../screens/searchBarScreen/SearchBar';
 const Stack = createNativeStackNavigator();
 
 const StackNav = () => {
@@ -49,6 +49,7 @@ const StackNav = () => {
       <Stack.Screen name="Downloads" component={Downloads} />
       <Stack.Screen name="PostImage" component={PostImage} />
       <Stack.Screen name="Comments" component={Comments} />
+      <Stack.Screen name="SearchBar" component={SearchBar} />
     </Stack.Navigator>
   );
 };

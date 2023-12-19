@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, } from "react-native";
 import RBSheet from "react-native-raw-bottom-sheet";
-import { ThreeDots } from '../../assets/svg/index'
+import Entypo from 'react-native-vector-icons/Entypo';
 import colors from "../theme/Color";
 import PostSetting from '../components/PostSetting'
 
@@ -17,7 +17,9 @@ export default function Example() {
             }}
         >
             <TouchableOpacity onPress={() => refRBSheet.current.open()}>
-                <ThreeDots width={23} height={23} />
+                <View >
+                    <Entypo name="dots-three-vertical" size={25} color='#A6A6A6'/>
+                </View>
             </TouchableOpacity>
             <RBSheet
                 ref={refRBSheet}

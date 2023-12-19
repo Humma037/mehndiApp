@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.seprator,
         borderRadius: 20,
         position: 'absolute',
-        top:30
+        top:10,
+        right:-172
     },
     user_Icon: {
         width: 100,
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     description_text: {
         color: '#767676',
         textAlign: 'center',
-        fontSize: 11,
+        fontSize: 12,
         width: '75%',
         paddingTop:3
     },
@@ -101,8 +102,6 @@ const styles = StyleSheet.create({
     },
     button: {
         flexDirection: 'row',
-        backgroundColor: '#eee',
-        // padding: 8,
         borderRadius: 20,
         borderWidth:1,
         borderColor:colors.BLACK,
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
         height:35,
         alignItems:'center',
         justifyContent:'center',
-
+        backgroundColor:colors.white
     },
     buttonText: {
         color: 'black',
@@ -124,7 +123,7 @@ const styles = StyleSheet.create({
     photo_cover_Icon: {
         color: colors.white,
         position:'absolute',
-        top:'12.8%',
+        bottom:35,
         right:30,
         backgroundColor:'rgba(67, 66, 64, 1)',
         padding:6,
@@ -133,12 +132,12 @@ const styles = StyleSheet.create({
     profile_edit_Icon: {
         color: colors.white,
         position:'absolute',
-        top:'16.8%',
-        right:'37.5%',
+        bottom:-7,
+        right:145,
         backgroundColor:'rgba(67, 66, 64, 1)',
         padding:5,
         borderRadius:25,
-        zIndex:1
+        zIndex:99999
     },
     text_container: {
         flexDirection: 'row',

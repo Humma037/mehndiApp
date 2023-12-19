@@ -1,33 +1,81 @@
-import React, { useState } from 'react';
-import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, Text, View, TouchableOpacity, Alert, Image } from 'react-native';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './Style';
 import SettingDropDown from '../../assets/components/SettingDropDown';
-import { signOut } from '../../services/firebaseAuth'; 
+import { useNavigation } from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const Setting = () => {
   const navigation = useNavigation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(true);
+  const [userName, setUserName] = useState('');
+  const [userProfileImage, setUserProfileImage] = useState('');
 
-  const handleLogout = async () => {
+useEffect(() => {
+  const fetchUserData = async () => {
     try {
-      await signOut();
-      navigation.navigate('Login');
+      const userId = auth().currentUser ? auth().currentUser.uid : null;
+      console.log('Current User ID:', userId);
+
+      if (userId) {
+        const userDoc = await firestore().collection('users').doc(userId).get();
+        console.log('User Document:', userDoc.data());
+
+        const userData = userDoc.data();
+        setUserName(userData?.displayName || 'User Name');
+        setUserProfileImage(userData?.profileImage || '');
+      }
     } catch (error) {
-      console.error('Error during logout:', error);
-      Alert.alert('Error', 'An error occurred during logout. Please try again.');
+      console.error('Error fetching user data:', error);
     }
   };
+
+  fetchUserData();
+}, []);
+
 
   const handleSettingBarPress = () => {
     navigation.navigate('Home');
   };
 
+  // handleLogout
+  const handleLogout = async () => {
+    try {
+      console.log('Attempting to sign out...');
+      await auth().signOut();
+      console.log('Sign out successful!');
+      navigation.navigate('Login');
+    } catch (error) {
+      console.error('Error signing out:', error.message);
+      Alert.alert('Error', 'There was an error signing out.');
+    }
+  };
+
+  // handleDeleteAccount
+  const handleDeleteAccount = async () => {
+    try {
+      console.log('Deleting account...');
+      const user = auth().currentUser;
+
+      if (user) {
+        // Delete the user
+        await user.delete();
+        console.log('Account deleted successfully!');
+        navigation.navigate('Register');
+      } else {
+        console.log('No user found to delete.');
+      }
+    } catch (error) {
+      console.error('Error deleting account:', error.message);
+      Alert.alert('Error', 'There was an error deleting the account.');
+    }
+  };
 
   return (
     <View style={styles.Container}>
@@ -38,10 +86,14 @@ const Setting = () => {
       <ScrollView>
         <View style={styles.sub_Container}>
           {/* user_profile */}
-          <FontAwesome name="user" size={40} style={styles.user_Icon} />
+          {userProfileImage ? (
+            <Image source={{ uri: userProfileImage }} style={styles.user_Icon} />
+          ) : (
+            <FontAwesome name="user" size={40} style={styles.user_Icon} />
+          )}
           {/* photo_cover */}
           <View style={styles.cover_photo}>
-            <Text style={styles.user_name}>Lady Gaga</Text>
+            <Text style={styles.user_name}>{userName}</Text>
             <Text style={styles.view_profile}>View Profile</Text>
           </View>
         </View>
@@ -112,20 +164,14 @@ const Setting = () => {
             { text: 'Report Problem', icon: 'bug-outline', iconLibrary: 'Ionicons' },
           ]}
         />
-         <SettingDropDown
+        <SettingDropDown
           heading="Logout & Delete"
           gearIcon="log-out"
           buttonData={[
-            {
-              text: 'Logout',
-              icon: 'power',
-              iconLibrary: 'Feather',
-              onPress: handleLogout,
-            },
-            { text: 'Delete Account', icon: 'trash-2', iconLibrary: 'Feather' },
+            { text: 'Logout', icon: 'power', iconLibrary: 'Feather', onPress: handleLogout },
+            { text: 'Delete Account', icon: 'trash-2', iconLibrary: 'Feather', onPress: handleDeleteAccount },
           ]}
         />
-
       </ScrollView>
     </View>
   )

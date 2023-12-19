@@ -27,7 +27,7 @@ const Downloads = () => {
                     </TouchableOpacity>
                     {/* <View style={{flexDirection:'row'}}> */}
                         <View style={styles.searchbar_style}>
-                            <FontAwesome name="search" size={14} style={styles.search_Icon} />
+                            <FontAwesome name="search" size={15} style={styles.search_Icon} />
                             <TextInput
                                 style={styles.search_Input}
                                 placeholder="Search"

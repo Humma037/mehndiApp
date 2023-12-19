@@ -26,7 +26,7 @@ const Register = ({ navigation }) => {
             .set({ Name, email })
             .then(() => {
               console.log('User data added to Firestore successfully');
-              // Navigate to the login screen
+              
               navigation.navigate('Login');
             })
             .catch(error => console.error('Error adding user data to Firestore:', error));

@@ -1,40 +1,54 @@
-import { StyleSheet, TouchableOpacity, View, Image } from 'react-native'
-import React from 'react'
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import colors from '../../theme/Color';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-
+import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+import auth from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
 
 const ProfileImage = () => {
   const navigation = useNavigation();
+  const [profileImageUrl, setProfileImageUrl] = useState(null);
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      const userId = auth().currentUser ? auth().currentUser.uid : null;
+
+      if (userId) {
+        try {
+          const storageRef = storage().ref(`profilePictures/${userId}`);
+          const downloadURL = await storageRef.getDownloadURL();
+          setProfileImageUrl(downloadURL);
+        } catch (error) {
+          console.error('Error fetching profile image:', error);
+        }
+      }
+    };
+
+    fetchProfileImage();
+  }, []);
 
   const handleProfileImagePress = () => {
     navigation.navigate('MainProfile');
   };
+
   return (
     <View>
-      {/* <FontAwesome name="user" size={17} style={styles.user_Icon} /> */}
       <TouchableOpacity onPress={handleProfileImagePress}>
-      <Image
-        source={require('../../Images/Hijab-Dp.jpg')}
-        style={styles.user_Icon}
-        resizeMode="cover"
-      />
+        <Image
+          source={profileImageUrl ? { uri: profileImageUrl } : require('../../Images/Hijab-Dp.jpg')}
+          style={styles.user_Icon}
+          resizeMode="cover"
+        />
       </TouchableOpacity>
     </View>
-  )
-}
-
-export default ProfileImage
+  );
+};
 
 const styles = StyleSheet.create({
   user_Icon: {
-    width: 45,
-    height: 45,
-    // backgroundColor: colors.seprator,
-    // paddingHorizontal: 13,
-    // paddingVertical: 8,
+    width: 48,
+    height: 48,
     borderRadius: 50,
-    // color: colors.DividingLine,
-  }
-})
+  },
+});
+
+export default ProfileImage;

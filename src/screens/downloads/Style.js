@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         // padding:17
         height: 70,
         alignItems: 'center',
-        paddingHorizontal: 20
+        paddingHorizontal: 15
     },
     search_Input: {
         fontSize: 12,
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.seprator,
         flexDirection: 'row',
         height: 37,
-        width: 190,
+        width: '55%',
         borderRadius: 20,
         paddingHorizontal: 10,
         alignItems: 'center',
@@ -79,13 +79,12 @@ const styles = StyleSheet.create({
     Filter_button: {
         flexDirection: 'row',
         backgroundColor: colors.seprator,
-        // padding:8,
-        // paddingHorizontal:22,
         borderRadius: 18,
-        width: 85,
+        width: '100%',
         height: 37,
         alignItems: 'center',
-        justifyContent: 'center',
+        paddingHorizontal:20
+        // justifyContent: 'center',
         // marginLeft: 8
     },
     Filter_button_text: {

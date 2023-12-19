@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
-import colors from '../../theme/Color';
 
 const OpenImageHeader = ({ navigation, name, icon, iconColor, nameColor, iconBackgroundColor, headerBackgroundColor, headerMainBackgroundColor }) => (
   <View style={[ { backgroundColor: headerMainBackgroundColor }]}>

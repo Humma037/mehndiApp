@@ -77,19 +77,9 @@ const ProfileData = () => {
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity onPress={togglePostBottomSheet}>
-                    <Image
-                        source={require('../../Images/girls-dp.jpeg')}
-                        style={styles.user_Icon}
-                        resizeMode="cover"
-                        onPress={() => refRBSheet1.current.open()}
-                    />
-                    <ReplyBottomSheet isVisible={bottomSheetVisible} onClose={toggleBottomSheet} />
-
-                </TouchableOpacity>
-                {/* <TouchableOpacity style={styles.donts_icon} onPress={togglePostBottomSheet}>
+                <TouchableOpacity style={styles.donts_icon} onPress={togglePostBottomSheet}>
                     <PostBottomSheet isVisible={PostbottomSheetVisible} onClose={togglePostBottomSheet} />
-                </TouchableOpacity> */}
+                </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.post_image_container} onPress={handlePostImagePress}>
                 <View style={styles.post_image}>

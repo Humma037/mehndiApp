@@ -24,12 +24,16 @@ const CustomSearchBar = ({ onSearch, onIcon1Press, onIcon2Press, icon1, icon2, i
     navigation.navigate('UploadPhoto');
   };
 
+  const handleSearchIconPress = () => {
+    navigation.navigate('SearchBar');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.sub_container}>
         <ProfileImage />
         <View style={styles.iconContainer}>
-          <TouchableOpacity onPress={onIcon1Press} style={styles.Icon_conatiner}>
+          <TouchableOpacity onPress={handleSearchIconPress} style={styles.Icon_conatiner}>
             <AntDesign name='search1' size={19} style={styles.back_Icon} />
           </TouchableOpacity>
           <TouchableOpacity onPress={handlePlusIconPress} style={styles.Icon_conatiner}>

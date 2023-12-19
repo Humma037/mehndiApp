@@ -12,6 +12,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import colors from '../theme/Color';
 import MainStyles from '../styles/MainStyles';
 
+
 const SettingDropDown = ({ heading, gearIcon, buttonData, initiallyExpanded }) => {
   const [expanded, setExpanded] = useState(initiallyExpanded);
 
@@ -74,7 +75,11 @@ const SettingDropDown = ({ heading, gearIcon, buttonData, initiallyExpanded }) =
             }
 
             return (
-              <TouchableOpacity key={index} style={styles.dropdown_Button}>
+              <TouchableOpacity
+                key={index}
+                style={styles.dropdown_Button}
+                onPress={button.onPress} // Call the onPress function directly
+              >
                 <IconComponent
                   name={button.icon}
                   size={22}
@@ -90,6 +95,8 @@ const SettingDropDown = ({ heading, gearIcon, buttonData, initiallyExpanded }) =
     </View>
   );
 };
+
+
 
 
 const styles = StyleSheet.create({

@@ -19,11 +19,11 @@ const styles = StyleSheet.create({
     },
     user_name: {
         fontWeight: "bold",
-        fontSize: 12,
+        fontSize: 13,
         color: colors.light_black,
     },
     text_details:{
-        fontSize: 11,
+        fontSize: 12,
         color: colors.DividingLine,
     },
     inputContainer: {
@@ -36,10 +36,10 @@ const styles = StyleSheet.create({
     },
     text_nput:{
         color:colors.BLACK,
-        fontSize:12
+        fontSize:13
     },
     profile_cover: {
-        width: 150,
+        width: '40%',
         height: 140,
         backgroundColor: colors.seprator,
         alignItems: 'center',
