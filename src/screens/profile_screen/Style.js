@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
     },
     images_sub_container: {
         width: '100%',
+        // height: '100%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
@@ -160,6 +161,7 @@ const styles = StyleSheet.create({
         width: '32%',
         height:100,
         margin: 4,
+        borderRadius:12,
     },
     images_sub: {
         marginBottom: '25%'

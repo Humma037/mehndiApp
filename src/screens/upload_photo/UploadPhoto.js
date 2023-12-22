@@ -1,18 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
-import { launchImageLibrary } from 'react-native-image-picker'; // Updated import
+import { launchImageLibrary } from 'react-native-image-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ProfileImage from '../../assets/components/profile/ProfileImage';
 import { useNavigation } from '@react-navigation/native';
 import OpenImageHeader from '../../assets/components/custom_hearder/OpenImageHeader';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
+import auth from '@react-native-firebase/auth';
 import styles from './Style';
 
 const UploadPhoto = () => {
   const navigation = useNavigation();
   const [caption, setCaption] = useState('');
   const [imageUri, setImageUri] = useState(null);
+  const [userName, setUserName] = useState('');
+  const [userBio, setUserBio] = useState('');
+  const [profilePictureURL, setProfilePictureURL] = useState(null);
+  const [coverPhotoURL, setCoverPhotoURL] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userId = auth().currentUser ? auth().currentUser.uid : null;
+        if (userId) {
+          const userDoc = await firestore().collection('users').doc(userId).get();
+          const userData = userDoc.data();
+
+          console.log('Fetched user data:', userData);
+
+          const retrievedUserName = userData.Name || '';
+          console.log('Retrieved userName:', retrievedUserName);
+
+          setProfilePictureURL(userData.profilePictureURL || null);
+          setCoverPhotoURL(userData.coverPhotoURL || null);
+          setUserName(retrievedUserName);
+
+          // Fetch user bio data
+          const bioDoc = await firestore().collection('user_bios').doc(userId).get();
+          const bioData = bioDoc.data();
+          setUserBio(bioData ? bioData.bio : '');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const chooseImage = () => {
     launchImageLibrary({ mediaType: 'photo' }, response => {
@@ -23,48 +58,12 @@ const UploadPhoto = () => {
   };
 
   const uploadPhoto = async () => {
-    try {
-      if (!imageUri || !caption) {
-        Alert.alert('Error', 'Please choose an image and write a caption.');
-        return;
-      }
-
-      const response = await fetch(imageUri);
-      const blob = await response.blob();
-
-      const folderName = 'user-posts';
-      const fileName = `${Date.now()}_${Math.random()}.jpg`;
-
-      // Upload image to Firebase Storage
-      const storageRef = storage().ref(`${folderName}/${fileName}`);
-      await storageRef.put(blob);
-
-      // Get the download URL
-      const downloadURL = await storageRef.getDownloadURL();
-
-      // Save data to Firestore
-      await firestore().collection('userPosts').add({
-        caption: caption,
-        imageUrl: downloadURL,
-        timestamp: firestore.FieldValue.serverTimestamp(),
-      });
-
-      // Reset state
-      setImageUri(null);
-      setCaption('');
-
-      // Show success alert
-      Alert.alert('Success', 'Image uploaded successfully!');
-    } catch (error) {
-      console.error('Error uploading photo:', error.message);
-      Alert.alert('Error', 'There was an error uploading the photo.');
-    }
+    // Your photo upload logic here
   };
 
   return (
     <View style={styles.Container}>
       <OpenImageHeader
-        navigation={navigation}
         name="Upload Photo"
         icon="cross"
         backgroundColor="white"
@@ -73,8 +72,10 @@ const UploadPhoto = () => {
         iconBackgroundColor="#E8A644"
         headerBackgroundColor="white"
         headerMainBackgroundColor="white"
+        navigation={navigation}
       />
       <View style={styles.sub_container}>
+        {/* <View style={{position:'absolute'}}> */}
         <View style={styles.ProfileImage}>
           {imageUri ? (
             <Image source={{ uri: imageUri }} style={styles.selectedImage} />
@@ -82,9 +83,10 @@ const UploadPhoto = () => {
             <ProfileImage />
           )}
         </View>
+        {/* </View> */}
         <View style={styles.data_container}>
-          <Text style={styles.user_name}>Lady Gaga</Text>
-          <Text style={styles.text_details}>Lorem ipsum doler milra dilrof</Text>
+          <Text style={styles.user_name}>{userName}</Text>
+          <Text style={styles.text_details}>{userBio}</Text>
         </View>
       </View>
       <View style={styles.inputContainer}>

@@ -99,12 +99,12 @@ const MainProfile = () => {
                 if (userId) {
                     const userDoc = await firestore().collection('users').doc(userId).get();
                     const userData = userDoc.data();
-                    
-                    console.log('Fetched user data:', userData); 
-    
-                    const retrievedUserName = userData.Name || ''; 
-                    console.log('Retrieved userName:', retrievedUserName); 
-    
+
+                    console.log('Fetched user data:', userData);
+
+                    const retrievedUserName = userData.Name || '';
+                    console.log('Retrieved userName:', retrievedUserName);
+
                     setProfilePictureURL(userData.profilePictureURL || null);
                     setCoverPhotoURL(userData.coverPhotoURL || null);
                     setUserName(retrievedUserName);
@@ -112,184 +112,117 @@ const MainProfile = () => {
                     // Fetch user bio data
                     const bioDoc = await firestore().collection('user_bios').doc(userId).get();
                     const bioData = bioDoc.data();
-                    setUserBio(bioData ? bioData.bio : ''); 
+                    setUserBio(bioData ? bioData.bio : '');
                 }
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
         };
-    
+
         fetchUserData();
     }, []);
-    
+
 
     return (
         <ScrollView style={styles.container}>
-            <View style={styles.sub_Container}>
+            {/* <View style={styles.sub_Container}> */}
 
-            {/* selectCoverPicture */}
+                <View style={styles.centerContainer}>
+                    {/* selectCoverPicture */}
+                    <TouchableOpacity onPress={selectCoverPicture} style={styles.centerImage}>
+                        {coverPhotoURL ? (
+                            <Image source={{ uri: coverPhotoURL }} style={styles.cover_photo} />
+                        ) : (
+                            <View style={styles.kjdkjmx} />
+                        )}
+                    </TouchableOpacity>
+                    {/* selectProfilePicture */}
+                    <TouchableOpacity onPress={selectProfilePicture} style={styles.centerImage}>
+                        {profilePictureURL ? (
+                            <Image source={{ uri: profilePictureURL }} style={styles.user_Icon} />
+                        ) : (
+                            <FontAwesome name="user" size={50} style={styles.user_Icon} />
+                        )}
+                    </TouchableOpacity>
+                </View>
+
+
                 <TouchableOpacity onPress={selectCoverPicture}>
-                    {coverPhotoURL ? (
-                        <Image source={{ uri: coverPhotoURL }} style={styles.cover_photo} />
-                    ) : (
-                        <View style={styles.cover_photo} />
-                    )}
+                    <FontAwesome name="camera" size={13} style={styles.photo_cover_Icon} />
                 </TouchableOpacity>
-                {/* selectProfilePicture */}
                 <TouchableOpacity onPress={selectProfilePicture}>
-                    {profilePictureURL ? (
-                        <Image source={{ uri: profilePictureURL }} style={styles.user_Icon} />
-                    ) : (
-                        <FontAwesome name="user" size={50} style={styles.user_Icon} />
-                    )}
+                    <FontAwesome name="camera" size={11} style={styles.profile_edit_Icon} />
                 </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity onPress={selectCoverPicture}>
-                <FontAwesome name="camera" size={13} style={styles.photo_cover_Icon} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={selectProfilePicture}>
-                <FontAwesome name="camera" size={11} style={styles.profile_edit_Icon} />
-            </TouchableOpacity>
 
 
-            <View style={styles.user_data}>
-                <Text style={styles.user_name}>{userName}</Text>
-                <Text style={styles.description_text}>{userBio}</Text>
-            </View>
-            <View style={styles.accountsDirection}>
-                <View style={styles.numbers_margin}>
-                    <Text style={styles.numbers_heading}>3.9M</Text>
-                    <Text style={styles.heading}>Likes</Text>
+                <View style={styles.user_data}>
+                    <Text style={styles.user_name}>{userName}</Text>
+                    <Text style={styles.description_text}>{userBio}</Text>
                 </View>
-                <View style={styles.line_container}>
-                    <View style={styles.line} />
+                <View style={styles.accountsDirection}>
+                    <View style={styles.numbers_margin}>
+                        <Text style={styles.numbers_heading}>3.9M</Text>
+                        <Text style={styles.heading}>Likes</Text>
+                    </View>
+                    <View style={styles.line_container}>
+                        <View style={styles.line} />
+                    </View>
+                    <View style={styles.numbers_margin}>
+                        <Text style={styles.numbers_heading}>35.5K</Text>
+                        <Text style={styles.heading}>Followers</Text>
+                    </View>
+                    <View style={styles.line_container}>
+                        <View style={styles.line} />
+                    </View>
+                    <View style={styles.numbers_margin}>
+                        <Text style={styles.numbers_heading}>3.2K</Text>
+                        <Text style={styles.heading}>Following</Text>
+                    </View>
                 </View>
-                <View style={styles.numbers_margin}>
-                    <Text style={styles.numbers_heading}>35.5K</Text>
-                    <Text style={styles.heading}>Followers</Text>
-                </View>
-                <View style={styles.line_container}>
-                    <View style={styles.line} />
-                </View>
-                <View style={styles.numbers_margin}>
-                    <Text style={styles.numbers_heading}>3.2K</Text>
-                    <Text style={styles.heading}>Following</Text>
-                </View>
-            </View>
 
-            <View style={styles.button_container}>
-                <TouchableOpacity style={styles.button} onPress={handleProfilePress}>
-                    <FontAwesome name="edit" size={17} style={styles.editIcon} />
-                    <Text style={styles.buttonText}>Edit Profile</Text>
-                </TouchableOpacity>
-            </View>
-
-            {/* HorizontalTextTabs */}
-            <View style={styles.text_container}>
-                <View style={styles.tab_container}>
-                    <TouchableOpacity
-                        style={[styles.tab, activeTab === 1 && styles.activeTab]}
-                        onPress={() => handleTabPress(1)}
-                    >
-                        <Text style={styles.tabText}>All</Text>
+                <View style={styles.button_container}>
+                    <TouchableOpacity style={styles.button} onPress={handleProfilePress}>
+                        <FontAwesome name="edit" size={17} style={styles.editIcon} />
+                        <Text style={styles.buttonText}>Edit Profile</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.tab_container}>
-                    <TouchableOpacity
-                        style={[styles.tab, activeTab === 2 && styles.activeTab]}
-                        onPress={() => handleTabPress(2)}
-                    >
-                        <Text style={styles.tabText}>Images</Text>
-                    </TouchableOpacity>
+
+                {/* HorizontalTextTabs */}
+                <View style={styles.text_container}>
+                    <View style={styles.tab_container}>
+                        <TouchableOpacity
+                            style={[styles.tab, activeTab === 1 && styles.activeTab]}
+                            onPress={() => handleTabPress(1)}
+                        >
+                            <Text style={styles.tabText}>All</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.tab_container}>
+                        <TouchableOpacity
+                            style={[styles.tab, activeTab === 2 && styles.activeTab]}
+                            onPress={() => handleTabPress(2)}
+                        >
+                            <Text style={styles.tabText}>Images</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.tab_container}>
+                        <TouchableOpacity
+                            style={[styles.tab, activeTab === 3 && styles.activeTab]}
+                            onPress={() => handleTabPress(3)}
+                        >
+                            <Text style={styles.tabText}>Videos</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={styles.tab_container}>
-                    <TouchableOpacity
-                        style={[styles.tab, activeTab === 3 && styles.activeTab]}
-                        onPress={() => handleTabPress(3)}
-                    >
-                        <Text style={styles.tabText}>Videos</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <ScrollView style={styles.images_container}>
-                <View style={styles.images_sub_container}>
-                    <Image
-                        source={require('../../assets/Images/mehndi_design.jpg')}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                    <Image
-                        source={require('../../assets/Images/mehndi_design2.jpg')}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                    <Image
-                        source={require('../../assets/Images/mehndi_design3.jpg')}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                </View>
-                <View style={styles.images_sub_container}>
-                    <Image
-                        source={require('../../assets/Images/mehndi_design4.jpg')}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                    <Image
-                        source={require('../../assets/Images/mehndi_design.jpg')}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                    <Image
-                        source={require('../../assets/Images/mehndi_design2.jpg')}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                </View>
-                <View style={styles.images_sub_container}>
-                    <Image
-                        source={require('../../assets/Images/mehndi_design3.jpg')}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                    <Image
-                        source={require('../../assets/Images/mehndi_design4.jpg')}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                    <Image
-                        source={require('../../assets/Images/mehndi_design.jpg')}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                </View>
-                <View style={styles.images_sub_container}>
-                    <Image
-                        source={require('../../assets/Images/mehndi_design3.jpg')}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                    <Image
-                        source={require('../../assets/Images/mehndi_design2.jpg')}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                    <Image
-                        source={require('../../assets/Images/mehndi_design.jpg')}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                </View>
-                <View style={styles.images_sub}>
+                <ScrollView style={styles.images_container}>
                     <View style={styles.images_sub_container}>
                         <Image
-                            source={require('../../assets/Images/mehndi_design2.jpg')}
+                            source={require('../../assets/Images/mehndi_design.jpg')}
                             style={styles.image}
                             resizeMode="cover"
                         />
                         <Image
-                            source={require('../../assets/Images/mehndi_design4.jpg')}
+                            source={require('../../assets/Images/mehndi_design2.jpg')}
                             style={styles.image}
                             resizeMode="cover"
                         />
@@ -299,8 +232,77 @@ const MainProfile = () => {
                             resizeMode="cover"
                         />
                     </View>
-                </View>
-            </ScrollView>
+                    <View style={styles.images_sub_container}>
+                        <Image
+                            source={require('../../assets/Images/mehndi_design4.jpg')}
+                            style={styles.image}
+                            resizeMode="cover"
+                        />
+                        <Image
+                            source={require('../../assets/Images/mehndi_design.jpg')}
+                            style={styles.image}
+                            resizeMode="cover"
+                        />
+                        <Image
+                            source={require('../../assets/Images/mehndi_design2.jpg')}
+                            style={styles.image}
+                            resizeMode="cover"
+                        />
+                    </View>
+                    <View style={styles.images_sub_container}>
+                        <Image
+                            source={require('../../assets/Images/mehndi_design3.jpg')}
+                            style={styles.image}
+                            resizeMode="cover"
+                        />
+                        <Image
+                            source={require('../../assets/Images/mehndi_design4.jpg')}
+                            style={styles.image}
+                            resizeMode="cover"
+                        />
+                        <Image
+                            source={require('../../assets/Images/mehndi_design.jpg')}
+                            style={styles.image}
+                            resizeMode="cover"
+                        />
+                    </View>
+                    <View style={styles.images_sub_container}>
+                        <Image
+                            source={require('../../assets/Images/mehndi_design3.jpg')}
+                            style={styles.image}
+                            resizeMode="cover"
+                        />
+                        <Image
+                            source={require('../../assets/Images/mehndi_design2.jpg')}
+                            style={styles.image}
+                            resizeMode="cover"
+                        />
+                        <Image
+                            source={require('../../assets/Images/mehndi_design.jpg')}
+                            style={styles.image}
+                            resizeMode="cover"
+                        />
+                    </View>
+                    <View style={styles.images_sub}>
+                        <View style={styles.images_sub_container}>
+                            <Image
+                                source={require('../../assets/Images/mehndi_design2.jpg')}
+                                style={styles.image}
+                                resizeMode="cover"
+                            />
+                            <Image
+                                source={require('../../assets/Images/mehndi_design4.jpg')}
+                                style={styles.image}
+                                resizeMode="cover"
+                            />
+                            <Image
+                                source={require('../../assets/Images/mehndi_design3.jpg')}
+                                style={styles.image}
+                                resizeMode="cover"
+                            />
+                        </View>
+                    </View>
+                </ScrollView>
         </ScrollView>
     );
 };

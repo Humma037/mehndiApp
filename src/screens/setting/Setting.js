@@ -15,30 +15,33 @@ const Setting = () => {
   const navigation = useNavigation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(true);
   const [userName, setUserName] = useState('');
-  const [userProfileImage, setUserProfileImage] = useState('');
+  const [profileImageUrl, setProfileImageUrl] = useState(null);
+  const [coverPhotoUrl, setCoverPhotoUrl] = useState(null);
 
-useEffect(() => {
-  const fetchUserData = async () => {
-    try {
-      const userId = auth().currentUser ? auth().currentUser.uid : null;
-      console.log('Current User ID:', userId);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userId = auth().currentUser ? auth().currentUser.uid : null;
+        if (userId) {
+          const userDoc = await firestore().collection('users').doc(userId).get();
+          const userData = userDoc.data();
 
-      if (userId) {
-        const userDoc = await firestore().collection('users').doc(userId).get();
-        console.log('User Document:', userDoc.data());
+          console.log('Fetched user data:', userData);
 
-        const userData = userDoc.data();
-        setUserName(userData?.displayName || 'User Name');
-        setUserProfileImage(userData?.profileImage || '');
+          const retrievedUserName = userData.Name || '';
+          console.log('Retrieved userName:', retrievedUserName);
+
+          setProfileImageUrl(userData.profilePictureURL || null);
+          setCoverPhotoUrl(userData.coverPhotoURL || null);
+          setUserName(retrievedUserName);
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
       }
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-    }
-  };
+    };
 
-  fetchUserData();
-}, []);
-
+    fetchUserData();
+  }, []);
 
   const handleSettingBarPress = () => {
     navigation.navigate('Home');
@@ -86,19 +89,20 @@ useEffect(() => {
       <ScrollView>
         <View style={styles.sub_Container}>
           {/* user_profile */}
-          {userProfileImage ? (
-            <Image source={{ uri: userProfileImage }} style={styles.user_Icon} />
+          {profileImageUrl ? (
+            <Image source={{ uri: profileImageUrl }} style={styles.user_Icon} />
           ) : (
             <FontAwesome name="user" size={40} style={styles.user_Icon} />
           )}
           {/* photo_cover */}
           <View style={styles.cover_photo}>
             <Text style={styles.user_name}>{userName}</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('MainProfile')}>
             <Text style={styles.view_profile}>View Profile</Text>
+            </TouchableOpacity>
           </View>
         </View>
         {/* setting_options */}
-        {/* <ScrollView> */}
         <View style={styles.setting_options_container} >
           <TouchableOpacity style={styles.setting_options} onPress={() => navigation.navigate('Home')}>
             <MaterialCommunityIcons size={30} name='comment-text-multiple-outline' style={styles.setting_options_icon} />
@@ -174,8 +178,7 @@ useEffect(() => {
         />
       </ScrollView>
     </View>
-  )
+  );
 }
 
-export default Setting
-
+export default Setting;

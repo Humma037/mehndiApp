@@ -14,17 +14,29 @@ const Login = ({ navigation }) => {
 
   const handleSignInPress = async () => {
     try {
+      // Input validation
+      if (!email.trim() || !password.trim()) {
+        Alert.alert('Invalid Input', 'Please enter both email and password.');
+        return;
+      }
+  
       const response = await auth().signInWithEmailAndPassword(email, password);
+  
       if (response.user) {
         // Successfully signed in, navigate to the home screen
         navigation.navigate('Home');
+        
+        Alert.alert('Success', 'You have successfully logged in.');
       } else {
         Alert.alert('Invalid Credentials', 'Please check your email and password.');
       }
     } catch (error) {
-      Alert.alert( 'Invalid Credentials', 'Please check your email and password.');
+      console.error('Sign In Error:', error);
+      Alert.alert('Authentication Failed', 'An error occurred during sign-in. Please try again later.');
     }
   };
+  
+  
 
   return (
     <View style={styles.Container}>

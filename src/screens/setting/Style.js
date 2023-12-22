@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     },
     sub_Container:{
         alignItems: 'center',
-        height:170,
+        height:195,
     },
     bars_Icon:{
         fontSize: 27,
@@ -21,23 +21,23 @@ const styles = StyleSheet.create({
     },
     cover_photo: {
         width: '92%',
-        height:110,
+        height:125,
         alignItems: 'center',
         justifyContent:'center',
         backgroundColor: colors.seprator,
         borderRadius: 15,
         position:'absolute',
-        top:40,
+        top:49,
     },
     user_Icon: {
-        width: 80,
-        height: 80,
+        width: 95,
+        height: 95,
         backgroundColor: colors.seprator,
-        paddingHorizontal: 26,
-        paddingVertical: 15,
+        paddingHorizontal: 30,
+        paddingVertical: 22,
         borderRadius: 50,
         color: colors.DividingLine,
-        zIndex:999
+        zIndex:999,
     },
     user_name: {
         fontSize: 14,
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         marginTop:20
     },
     view_profile: {
-        fontSize: 11,
+        fontSize: 12,
         color: '#767676',
     },
     setting_options_container:{

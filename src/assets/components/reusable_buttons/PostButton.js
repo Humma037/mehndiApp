@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'black',
-    fontSize: 10,
+    fontSize: 11,
     // margin:5
   },
 });

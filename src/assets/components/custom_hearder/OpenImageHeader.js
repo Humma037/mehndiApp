@@ -1,3 +1,5 @@
+// OpenImageHeader.js
+
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';

@@ -18,7 +18,11 @@ const ProfileData = () => {
     const refRBSheet1 = useRef();
     const refRBSheet2 = useRef();
     const [replyBottomSheetVisible, setReplyBottomSheetVisible] = useState(false);
+    const [showFullDescription, setShowFullDescription] = useState(false);
 
+    const textDescription = `Lorem ipsum doler milra dilrof Lorem ipsum doler milra dilrof Lorem ipsum doler milra dilrof Lorem ipsum doler milra Lorem ipsum doler milra dilrof Lorem ipsum doler milra dilrof.`;
+
+    const truncatedText = showFullDescription ? textDescription : `${textDescription.slice(0, 45)}...`;
     const toggleReplyBottomSheet = () => {
         setReplyBottomSheetVisible(!replyBottomSheetVisible);
     };
@@ -71,9 +75,7 @@ const ProfileData = () => {
                     <View style={styles.userData}>
                         <View>
                             <Text style={styles.text_name}>Lady Gaga</Text>
-                            <Text style={styles.text_description}>
-                                Lorem ipsum doler milra dilrof
-                            </Text>
+                            <Text style={styles.time_text}>02:23 PM</Text>
                         </View>
                     </View>
                 </View>
@@ -81,6 +83,16 @@ const ProfileData = () => {
                     <PostBottomSheet isVisible={PostbottomSheetVisible} onClose={togglePostBottomSheet} />
                 </TouchableOpacity>
             </View>
+            {/* description */}
+           <Text style={[styles.text_description, { fontSize: 12 }]}>
+                {truncatedText}
+                {!showFullDescription && (
+                    <Text style={{ color: 'black', fontSize: 12 }} onPress={() => setShowFullDescription(true)}> Read More</Text>
+                )}
+                {showFullDescription && (
+                    <Text style={{ color: 'black' }} onPress={() => setShowFullDescription(false)}> Read Less</Text>
+                )}
+            </Text>
             <TouchableOpacity style={styles.post_image_container} onPress={handlePostImagePress}>
                 <View style={styles.post_image}>
                     <Image
@@ -210,6 +222,7 @@ const styles = StyleSheet.create({
     userData: {
         flexDirection: 'row',
         alignItems: 'center',
+        // width: '30%'
     },
     text_name: {
         fontSize: 12,
@@ -220,8 +233,10 @@ const styles = StyleSheet.create({
     donts_icon: {},
     text_description: {
         fontSize: 11,
-        color: colors.DividingLine,
-        marginLeft: 5,
+        color:colors.light_black,
+        // marginLeft: 5,
+        width: '100%',
+        paddingHorizontal: 25
     },
     ellipsis_Icon: {
         color: colors.DividingLine,
@@ -233,7 +248,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: '100%',
         flexDirection: 'row',
-        paddingHorizontal: '12%',
+        paddingHorizontal: '10%',
         marginVertical: 3,
     },
     post_Button: {
@@ -258,4 +273,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginLeft: '16%'
     },
+    time_text:{
+        color:colors.light_black,
+        fontSize:11,
+        marginLeft:5,
+        marginTop:2
+    }
 });

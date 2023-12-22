@@ -7,11 +7,11 @@ const CustomHeader = ({ navigation }) => (
     <View style={styles.header}>
         <AntDesign name="left" size={15} onPress={() => navigation.goBack()} style={styles.icon_style} />
         <View style={styles.image_style}>
-            <Image
+            {/* <Image
                 source={require('../../Images/Logo.png')}
                 style={styles.logo_style}
                 resizeMode="cover"
-            />
+            /> */}
         </View>
     </View>
 );

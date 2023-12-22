@@ -8,10 +8,10 @@ const styles = StyleSheet.create({
         backgroundColor:colors.white
     },
     sub_container: {
-        width: '100%',
+        width: '70%',
         flexDirection:'row',
         margin:30,
-        height:60,
+        // height:60,
         alignItems: 'center',
     },
     data_container: {
@@ -69,6 +69,9 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         textAlign:'center'
     },
+    data_container:{
+        marginLeft:5,
+    }
 });
 
 export default styles;

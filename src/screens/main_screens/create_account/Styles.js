@@ -7,17 +7,17 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor:colors.white
     },
-    sub_container: {
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        // width: '100%',
+    logo_style: {
+        width: 260,
+        height:50,
+        backgroundColor:colors.blue_color
     },
     image_style:{
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        height:70,
-        marginTop:30
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        // width: 1,
+        // height:70,
+        // marginTop:30
     },
     text_style: {
         color: colors.text_color ,       
